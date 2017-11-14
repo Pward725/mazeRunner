@@ -1,5 +1,5 @@
 /* Written by Philip Ward and Alex Mathews. This is a maze solving robot that is able to 
-calculate the fastest way through a maze after an intitial mapping run*/
+calculate the fastest way through a maze after an intitial mapping run*/ /////////////////this
 #include "SR04.h"//Library for the ultrasonic sensors
 
 // Define which ways the motors are going to turn
