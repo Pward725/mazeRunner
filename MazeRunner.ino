@@ -99,6 +99,43 @@ int checkLeft()
   return pulse_width / 58.0;
 }
 
+void turnLeft()
+{
+  driveMotor(MOTOR_A, REVERSE, 255);
+  driveMotor(MOTOR_B, FORWARD, 255);
+  delay(450);
+  stopMotor(MOTOR_A);  // STOP motor A
+  stopMotor(MOTOR_B);  // STOP motor B
+}
+
+void driveForward()
+{
+  driveMotor(MOTOR_A, FORWARD, 255);
+  driveMotor(MOTOR_B, FORWARD, 255);
+  delay(100);//drive forward a bit before checking sensors again
+}
+
+// drives 'motor' in 'dir' direction at 'spd' speed
+void driveMotor(byte motor, byte dir, byte spd)
+{
+  if (motor == MOTOR_A)
+  {
+    digitalWrite(DIRA, dir);
+    analogWrite(PWMA, spd);
+  }//PWMA is the pin for speed
+  else if (motor == MOTOR_B)
+  {
+    digitalWrite(DIRB, dir);
+    analogWrite(PWMB, spd);
+  }//PWMB is the pin for speed
+}
+
+void stopMotor(byte motor)
+{
+  driveMotor(motor, 0, 0);
+}
+
+
 
 
 
