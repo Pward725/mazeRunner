@@ -1,5 +1,6 @@
 /* Written by Philip Ward and Alex Mathews. This is a maze solving robot that is able to 
 calculate the fastest way through a maze after an intitial mapping run*/
+#include "UltrasonicSensor.h"
 
 // Define which ways the motors are going to turn
 #define FORWARD  0
@@ -15,14 +16,16 @@ calculate the fastest way through a maze after an intitial mapping run*/
 #define DIRB 4 // Direction control for motor B
 #define PWMB 11 // PWM control (speed) for motor B
 
-const int TRIG_PIN = 7;
-const int ECHO_PIN = 8;
-int checkLeft();
-unsigned long t1;
-unsigned long t2;
-unsigned long pulse_width;
-unsigned long newLeft = 0;
-unsigned long lastLeft = checkLeft();
+const int leftTrig = 13;
+const int leftEcho = 12;
+const int frontTrig = 11;
+const int frontEcho = 10;
+const int rightTrig = 9;
+const int rightEcho = 8;
+
+UltrasonicSensor leftSensor(leftTrig, leftEcho);
+UltrasonicSensor rightSensor(rightTrig, rightEcho);
+UltrasonicSensor frontSensor(frontTrig, frontEcho);
 
 void setup() {
   // All pins should be setup as outputs
@@ -73,34 +76,6 @@ Serial.println(newLeft  );
   delay(1000);
 
   
-}
-
-int checkLeft()
-{
-  unsigned long t1;
-  unsigned long t2;
-  unsigned long pulse_width; 
-  
-  //trigger the sensor by setting it to one for 10 us
-  digitalWrite(TRIG_PIN, HIGH);
-  delayMicroseconds(10);
-  digitalWrite(TRIG_PIN, LOW);
-
-  // Wait for pulse on echo pin
-  while ( digitalRead(ECHO_PIN) == 0 );
-
-  // Measure how long the echo pin was held high (pulse width)
-  // Note: the micros() counter will overflow after ~70 min
-  t1 = micros();
-  while ( digitalRead(ECHO_PIN) == 1);
-  t2 = micros();
-  pulse_width = t2 - t1;
-  
-
-  // Calculate distance in centimeters and inches. The constants
-  // are found in the datasheet, and calculated from the assumed speed 
-  //of sound in air at sea level (~340 m/s).
-  return pulse_width / 58.0;
 }
 
 void turnLeft()
