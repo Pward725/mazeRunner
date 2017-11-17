@@ -1,6 +1,5 @@
 /* Written by Philip Ward and Alex Mathews. This is a maze solving robot that is able to 
 calculate the fastest way through a maze after an intitial mapping run*/
-#include "SR04.h"//Library for the ultrasonic sensors
 
 // Define which ways the motors are going to turn
 #define FORWARD  0
@@ -16,7 +15,14 @@ calculate the fastest way through a maze after an intitial mapping run*/
 #define DIRB 4 // Direction control for motor B
 #define PWMB 11 // PWM control (speed) for motor B
 
-
+const int TRIG_PIN = 7;
+const int ECHO_PIN = 8;
+int checkLeft();
+unsigned long t1;
+unsigned long t2;
+unsigned long pulse_width;
+unsigned long newLeft = 0;
+unsigned long lastLeft = checkLeft();
 
 void setup() {
   // All pins should be setup as outputs
@@ -31,27 +37,25 @@ void setup() {
   digitalWrite(DIRA, LOW);
   digitalWrite(DIRB, LOW);
 
-  //set up the variable for distance calculation
   
-unsigned long t1;
-unsigned long t2;
-unsigned long pulse_width;
-unsigned long lastLeft = checkLeft();
+Serial.begin(9600);
 
 }
 
 //minimum distance before action is needed (e.g. turn left)
-int tolerance = 5;
+int tolerance = 20;
 int center = 5;// minimum difference between left and right sides
 
 void loop() {
 
 //get new left distance
 newLeft = checkLeft();
+Serial.println(newLeft  );
   //get the distances of each sensor
-  if ((thisLeft - lastLeft) > tolerance)
+  if ((newLeft - lastLeft) > tolerance)
   {
-   turnLeft(); 
+   turnLeft();
+   delay(500); 
   }
   //int front = getFrontSensor();
   //int right = getRightSensor();
@@ -64,9 +68,9 @@ newLeft = checkLeft();
    }
 
   //set this loops leftDistance to be the old left
-   lastLeft = newLeft();
-   //driveForward();
-  
+   lastLeft = newLeft;
+   driveForward();
+  delay(1000);
 
   
 }
