@@ -1,7 +1,6 @@
 /* Written by Philip Ward and Alex Mathews. This is a maze solving robot that is able to 
 calculate the fastest way through a maze after an intitial mapping run*/
 #include "UltrasonicSensor.h"
-
 // Define which ways the motors are going to turn
 #define FORWARD  0
 #define REVERSE 1
@@ -24,6 +23,8 @@ const int rightTrig = 9;
 const int rightEcho = 8;
 
 UltrasonicSensor leftSensor(leftTrig, leftEcho);
+float oldLeftDistance = leftSensor.getReading();
+float newLeftDistance = leftSensor.getReading();
 UltrasonicSensor rightSensor(rightTrig, rightEcho);
 UltrasonicSensor frontSensor(frontTrig, frontEcho);
 
@@ -52,27 +53,18 @@ int center = 5;// minimum difference between left and right sides
 void loop() {
 
 //get new left distance
-newLeft = checkLeft();
-Serial.println(newLeft  );
+newLeftDistance = leftSensor.getReading();
+Serial.println(newLeftDistance);
   //get the distances of each sensor
-  if ((newLeft - lastLeft) > tolerance)
+  if ((newLeftDistance - lastLeftDistance) > tolerance)
   {
    turnLeft();
    delay(500); 
   }
-  //int front = getFrontSensor();
-  //int right = getRightSensor();
-  //int left = getLeftSensor();
-
-  //if(front < tolerance)
-   {
-      //turnLeft();
-      //return; //keep turning left until able to go straight
-   }
 
   //set this loops leftDistance to be the old left
    lastLeft = newLeft;
-   driveForward();
+  driveForward();
   delay(1000);
 
   
