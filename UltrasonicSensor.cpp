@@ -1,4 +1,5 @@
 #include "UltrasonicSensor.h"
+#include "Arduino.h"
 
 UltrasonicSensor::UltrasonicSensor(int trigPin, int echoPin)
 {
@@ -14,9 +15,9 @@ float UltrasonicSensor::getReading()
       float pulse_width; 
       
       //trigger the sensor by setting it to one for 10 us
-      digitalWrite (trigPin, HIGH);
+      digitalWrite (trigPin, 1);
       delayMicroseconds(10);
-      digitalWrite(trigPin, LOW);
+      digitalWrite(trigPin, 0);
     
       // Wait for pulse on echo pin
       while ( digitalRead(echoPin) == 0 );

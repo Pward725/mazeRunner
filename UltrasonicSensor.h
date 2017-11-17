@@ -5,5 +5,5 @@ public:
     float getReading();
 private:
     int trigPin;
-    ing echoPin;
+    int echoPin;
 };

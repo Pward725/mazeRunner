@@ -23,7 +23,7 @@ const int rightTrig = 9;
 const int rightEcho = 8;
 
 UltrasonicSensor leftSensor(leftTrig, leftEcho);
-float oldLeftDistance = leftSensor.getReading();
+float lastLeftDistance = leftSensor.getReading();
 float newLeftDistance = leftSensor.getReading();
 UltrasonicSensor rightSensor(rightTrig, rightEcho);
 UltrasonicSensor frontSensor(frontTrig, frontEcho);
@@ -63,7 +63,7 @@ Serial.println(newLeftDistance);
   }
 
   //set this loops leftDistance to be the old left
-   lastLeft = newLeft;
+   lastLeftDistance = newLeftDistance;
   driveForward();
   delay(1000);
 
